@@ -18,3 +18,10 @@ Tempo service graph.
 - PromTail - log collector / agent
 - Loki - log aggregation
 - Grafana - visualiser for traces, logs and anything else you wish to add.
+
+# Get started
+
+Ensure you have docker compose installed and simply run `docker compose up`.
+
+Navigate to `localhost:3000` to access Grafana. Hit the explore button on the side and
+browse Tempo for tracing, Loki for logs!
