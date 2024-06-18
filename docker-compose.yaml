@@ -81,7 +81,7 @@ services:
     logging: *default-logging
 
   init:
-    image: &tempoImage grafana/tempo:latest
+    image: &tempoImage grafana/tempo:main-f9bd4fc
     user: root
     entrypoint:
       - "chown"
@@ -107,20 +107,19 @@ services:
 
   k6-tracing:
     image: ghcr.io/grafana/xk6-client-tracing:latest
-    command:
-      - run
-      - /template.js
-    volumes:
-      - ./template.js:/template.js:ro
+    environment:
+      - ENDPOINT=otel-collector:4317
+    restart: always
     depends_on:
       - otel-collector
-    restart: always
 
   otel-collector:
-    image: otel/opentelemetry-collector:0.86.0
+    image: otel/opentelemetry-collector:0.101.0
     command: [ "--config=/etc/otel-collector.yaml" ]
     volumes:
       - ./otel-collector.yaml:/etc/otel-collector.yaml
+    ports:
+      - 4320:4317
 
   prometheus:
     image: prom/prometheus:latest
